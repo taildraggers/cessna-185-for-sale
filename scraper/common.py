@@ -111,6 +111,20 @@ DATE_LABEL_RE = re.compile(
 )
 
 
+# No whole airplane in these searches sells for less than this; a lower
+# asking price means the ad is really for a part ("$135.00").
+MIN_AIRCRAFT_PRICE = 1_000
+
+
+def price_value(price: str) -> float | None:
+    """Numeric value of an extract_price() string, or None for 'Contact for price'."""
+    digits = re.sub(r"[^\d.]", "", price)
+    try:
+        return float(digits)
+    except ValueError:
+        return None
+
+
 def extract_price(text: str) -> str:
     m = PRICE_RE.search(text)
     if not m:
@@ -193,7 +207,7 @@ EXCLUDE_KEYWORDS = [
     "decal", "decals", "poster", "ski", "skis", "brake", "brakes",
     "tire", "tires", "tube", "tubes", "empennage", "fuselage", "cabin",
     "canopy", "windshield", "exhaust", "muffler", "harness", "wiring",
-    "panel", "yoke", "control column", "controls", "cable", "cables",
+    "panel", "yoke", "control column", "control columns", "column", "columns", "gauge", "gauges", "controls", "cable", "cables",
     "throttle", "hardware", "hose", "hoses", "fitting", "fittings",
     "bearing", "bearings", "tailwheel", "upholstery", "interior", "interiors", "sump", "dipstick",
     "connecting rods", "stc", "governor", "governors", "winter front", "winter fronts",

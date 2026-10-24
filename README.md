@@ -26,7 +26,10 @@ Daily aggregator of Cessna 185 aircraft classified listings from
   missing year isn't disqualifying, since plenty of genuine ads simply don't state one
   in the title - regardless of how the original ad was worded, so the page reads
   consistently.
-- `main.py` runs the scraper, de-duplicates results, and renders them into
+- Ads priced under $1,000 are dropped as parts listings (`MIN_AIRCRAFT_PRICE` in
+  `scraper/common.py`).
+- `main.py` runs the scraper, de-duplicates results (including the same ad reposted
+  under a new ad number: identical title, price, and location), and renders them into
   `docs/index.html` titled **"Other Cessna 185 Ads on the Web"**, with one row per
   listing: Title (linked to the original ad), Price, Location, Date Posted, and Site
   Posted On. Links use `rel="noopener noreferrer"` and the page sets a
